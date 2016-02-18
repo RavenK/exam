@@ -10,19 +10,24 @@ def find_invalid(file):
 			if i == "1":
 				invalid.append(count)
 	return invalid
-	
-def cal_2nd_col(file):
-	list_col_2= []
+
+def select_column(file,column):
+	list_col= []
 	for lines in file:
 		line = lines.split()
 		if len(line) >1:
-			col_2 = line[1]
-			list_col_2.append(col_2)
-	
+			col = line[column]
+			list_col.append(col)
+	list_col[0]=0
+	data_list = [float(i) for i in list_col]
+	return data_list
+def cal_2nd_col(file):
 	in_file.seek(0)
 	check = find_invalid(in_file)
-	list_col_2[0]=0
-	data_list = [float(i) for i in list_col_2]
+	in_file.seek(0)
+	data_list = select_column(in_file,1)
+
+	
 	for val in check:
 		data_list[val]=0
 		
@@ -31,10 +36,18 @@ def cal_2nd_col(file):
 	average = np.mean(data_list)
 	standard_deviation= np.std(data_list)
 	print max_value,min_value,average,standard_deviation
-	return data_list
+	#return data_list
 	
-def plot
+def interval_plot(data):
+	list_col_1= []
+	for lines in file:
+		line = lines.split()
+		if len(line) >1:
+			col_1 = line[0]
+			list_col_1.append(col_1)
 	
+a = cal_2nd_col(in_file)
+print a	
 
 			
 		
@@ -47,6 +60,3 @@ def plot
 		
 
 
-
-a= cal_2nd_col(in_file)
-print a
