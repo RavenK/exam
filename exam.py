@@ -70,7 +70,10 @@ def fifteen_min_plot():
 	#plt.ylabel('values')
 	#plt.title ('15 minutes datas')
 	#plt.show()
-	return stop
+	#This function will be recall in segment_plot function
+	#so I hide the plot of it. If not, the segment_plot will plot
+	#2 plots of fifteen_min_plot and segment_plot.
+	return stop	
 def whole_values_plot():
 
 	
@@ -103,16 +106,18 @@ def segment_plot():
 
 	
 			
-#a = five_min_plot()
+#a = find_invalid(in_file)
 #print a
-#b = fifteen_min_plot()
+#b= cal_2nd_col()
 #print b
-#c= whole_values_plot()
+#c=five_min_plot()
 #print c
-#d= cal_2nd_col()
+#d = fifteen_min_plot()
 #print d
-e= segment_plot()
-print e			
+#e= whole_values_plot()
+#print e
+#f= segment_plot()
+#print f
 		
 	
 	
