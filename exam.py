@@ -23,7 +23,7 @@ def select_column(file,column):
 	data_list = [float(i) for i in list_col]
 	return data_list
 def cal_2nd_col():
-	in_file.seek(0)
+	
 	check = find_invalid(in_file)
 	in_file.seek(0)
 	data_list = select_column(in_file,1)
@@ -31,15 +31,15 @@ def cal_2nd_col():
 		data_list[val]=0
 	max_value = max(data_list)
 	min_value = min(data_list)
-	average = np.mean(data_list)
+	average = np.average(data_list)
 	standard_deviation= np.std(data_list)
 	return max_value,min_value,average,standard_deviation
 def five_min_plot():
-	in_file.seek(0)
+	
 	col_1 = select_column(in_file,0)
 	in_file.seek(0)
 	col_2 = select_column(in_file,1)
-	time = 5*60 #5 mins to second
+	time = 5
 	
 	stop=0
 	for i in range(len(col_1)):
@@ -53,11 +53,11 @@ def five_min_plot():
 	plt.title('5 minutes datas')
 	plt.show()
 def fifteen_min_plot():
-	in_file.seek(0)
+	
 	col_1 = select_column(in_file,0)
 	in_file.seek(0)
 	col_2 = select_column(in_file,1)
-	time = 15*60 #5 mins to second
+	time = 15
 	
 	stop=0
 	for i in range(len(col_1)):
@@ -65,14 +65,15 @@ def fifteen_min_plot():
 			stop=i	
 	time = col_1[0:stop]
 	new_col_2 = col_2[0:stop]
-	plt.plot(time,new_col_2)
-	plt.xlabel('time (s)')
-	plt.ylabel('values')
-	plt.title ('15 minutes datas')
-	plt.show()
+	#plt.plot(time,new_col_2)
+	#plt.xlabel('time (s)')
+	#plt.ylabel('values')
+	#plt.title ('15 minutes datas')
+	#plt.show()
+	return stop
 def whole_values_plot():
 
-	in_file.seek(0)
+	
 	col_2 = select_column(in_file,1)
 	plt.hist([col_2], bins = 100)
 	plt.title("Histogram of RR time series")
@@ -82,17 +83,36 @@ def whole_values_plot():
 	plt.annotate("minimum",xy = (214.724,16.2602),xytext = (314.467,402.439), arrowprops=dict(facecolor='black', shrink=0.05))
 	plt.annotate("average",xy = (728.994,3325.84),xytext = (957.776,3845.51), arrowprops=dict(facecolor='black', shrink=0.05))
 	plt.show()
+def segment_plot():	
 	
+	col_2 = select_column(in_file,1)
+	in_file.seek(0)
+	step=fifteen_min_plot()
+	lists = [col_2[i:i+step] for i in range(0,len(col_2),step)]
+	average=[]
+	time=[]
+	for i in range(len(lists)):
+		mean = np.average(lists[i])
+		time.append(i)
+		average.append(mean)
+	plt.xlabel("Time (min)")	
+	plt.ylabel("Average")
+	plt.title("Segments of Electrical Heart Datas in every 15 mins")
+	plt.plot(time,average)
+	plt.show()
+
 	
 			
 #a = five_min_plot()
 #print a
 #b = fifteen_min_plot()
 #print b
-c= whole_values_plot()
-print c
-d= cal_2nd_col()
-print d			
+#c= whole_values_plot()
+#print c
+#d= cal_2nd_col()
+#print d
+e= segment_plot()
+print e			
 		
 	
 	
