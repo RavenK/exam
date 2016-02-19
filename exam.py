@@ -32,25 +32,41 @@ def cal_2nd_col():
 	min_value = min(data_list)
 	average = np.mean(data_list)
 	standard_deviation= np.std(data_list)
-	print max_value,min_value,average,standard_deviation
-	return data_list
-	
-def interval_plot():
+	return max_value,min_value,average,standard_deviation
+def five_min_plot():
 	in_file.seek(0)
 	col_1 = select_column(in_file,0)
 	in_file.seek(0)
 	col_2 = select_column(in_file,1)
-	time_1 = 5*60 #5 mins to second
-	time_2 = 15*60 #15 mins to second
-	for i in col_1:
-		print i
-			
-	time = col_1[0:i]
-	plt.plot(time,col_2)
+	time = 5*60 #5 mins to second
+	
+	stop=0
+	for i in range(len(col_1)):
+		if col_1[i] < time:
+			stop=i	
+	time = col_1[0:stop]
+	new_col_2 = col_2[0:stop]
+	plt.plot(time,new_col_2)
 	plt.show()
+def fifteen_min_plot():
+	in_file.seek(0)
+	col_1 = select_column(in_file,0)
+	in_file.seek(0)
+	col_2 = select_column(in_file,1)
+	time = 15*60 #5 mins to second
+	
+	stop=0
+	for i in range(len(col_1)):
+		if col_1[i] < time:
+			stop=i	
+	time = col_1[0:stop]
+	new_col_2 = col_2[0:stop]
+	plt.plot(time,new_col_2)
+	plt.show()
+
 			
-a = interval_plot()
-print a	
+a = fifteen_min_plot()
+print a
 
 			
 		
