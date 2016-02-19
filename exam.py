@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+
 in_file = open('C:\Users\User\Desktop\hrv\RR.rea')
 
 def find_invalid(file):
@@ -47,6 +48,9 @@ def five_min_plot():
 	time = col_1[0:stop]
 	new_col_2 = col_2[0:stop]
 	plt.plot(time,new_col_2)
+	plt.xlabel('time (s)')
+	plt.ylabel('values')
+	plt.title('5 minutes datas')
 	plt.show()
 def fifteen_min_plot():
 	in_file.seek(0)
@@ -62,13 +66,33 @@ def fifteen_min_plot():
 	time = col_1[0:stop]
 	new_col_2 = col_2[0:stop]
 	plt.plot(time,new_col_2)
+	plt.xlabel('time (s)')
+	plt.ylabel('values')
+	plt.title ('15 minutes datas')
 	plt.show()
+def whole_values_plot():
 
+	in_file.seek(0)
+	col_2 = select_column(in_file,1)
+	plt.hist([col_2], bins = 100)
+	plt.title("Histogram of RR time series")
+	plt.xlabel("Values")
+	plt.ylabel("Frequency")
+	plt.annotate("maximum",xy = (661.55,7483.15),xytext = (741.144,7780.49), arrowprops=dict(facecolor='black', shrink=0.05))
+	plt.annotate("minimum",xy = (214.724,16.2602),xytext = (314.467,402.439), arrowprops=dict(facecolor='black', shrink=0.05))
+	plt.annotate("average",xy = (728.994,3325.84),xytext = (957.776,3845.51), arrowprops=dict(facecolor='black', shrink=0.05))
+	plt.show()
+	
+	
 			
-a = fifteen_min_plot()
-print a
-
-			
+#a = five_min_plot()
+#print a
+#b = fifteen_min_plot()
+#print b
+c= whole_values_plot()
+print c
+d= cal_2nd_col()
+print d			
 		
 	
 	
