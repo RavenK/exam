@@ -19,23 +19,27 @@ def select_column(file,column):
 		if len(line) >1:
 			col = line[column]
 			list_col.append(col)
-	list_col[0]=0
+	list_col.remove(list_col[0])
 	data_list = [float(i) for i in list_col]
+
 	return data_list
 def cal_2nd_col():
-	
+	in_file.seek(0)
 	check = find_invalid(in_file)
 	in_file.seek(0)
 	data_list = select_column(in_file,1)
+	common=[]
 	for val in check:
-		data_list[val]=0
-	max_value = max(data_list)
-	min_value = min(data_list)
-	average = np.average(data_list)
-	standard_deviation= np.std(data_list)
+		common.append(data_list[val-1])
+	data = [values for values in data_list if values not in common]
+	print len(data)
+	max_value = max(data)
+	min_value = min(data)
+	average = np.average(data)
+	standard_deviation= np.std(data)
 	return max_value,min_value,average,standard_deviation
 def five_min_plot():
-	
+	in_file.seek(0)
 	col_1 = select_column(in_file,0)
 	in_file.seek(0)
 	col_2 = select_column(in_file,1)
@@ -48,12 +52,12 @@ def five_min_plot():
 	time = col_1[0:stop]
 	new_col_2 = col_2[0:stop]
 	plt.plot(time,new_col_2)
-	plt.xlabel('time (s)')
+	plt.xlabel('time (m)')
 	plt.ylabel('values')
 	plt.title('5 minutes datas')
 	plt.show()
 def fifteen_min_plot():
-	
+	in_file.seek(0)
 	col_1 = select_column(in_file,0)
 	in_file.seek(0)
 	col_2 = select_column(in_file,1)
@@ -65,17 +69,17 @@ def fifteen_min_plot():
 			stop=i	
 	time = col_1[0:stop]
 	new_col_2 = col_2[0:stop]
-	#plt.plot(time,new_col_2)
-	#plt.xlabel('time (s)')
-	#plt.ylabel('values')
-	#plt.title ('15 minutes datas')
-	#plt.show()
+	plt.plot(time,new_col_2)
+	plt.xlabel('time (m)')
+	plt.ylabel('values')
+	plt.title ('15 minutes datas')
+	plt.show()
 	#This function will be recall in segment_plot function
 	#so I hide the plot of it. If not, the segment_plot will plot
 	#2 plots of fifteen_min_plot and segment_plot.
 	return stop	
 def whole_values_plot():
-
+	in_file.seek(0)
 	
 	col_2 = select_column(in_file,1)
 	plt.hist([col_2], bins = 100)
@@ -87,7 +91,7 @@ def whole_values_plot():
 	plt.annotate("average",xy = (728.994,3325.84),xytext = (957.776,3845.51), arrowprops=dict(facecolor='black', shrink=0.05))
 	plt.show()
 def segment_plot():	
-	
+	in_file.seek(0)
 	col_2 = select_column(in_file,1)
 	in_file.seek(0)
 	step=fifteen_min_plot()
@@ -98,7 +102,7 @@ def segment_plot():
 		mean = np.average(lists[i])
 		time.append(i)
 		average.append(mean)
-	plt.xlabel("Time (min)")	
+	plt.xlabel("Segments number")	
 	plt.ylabel("Average")
 	plt.title("Segments of Electrical Heart Datas in every 15 mins")
 	plt.plot(time,average)
@@ -106,18 +110,18 @@ def segment_plot():
 
 	
 			
-#a = find_invalid(in_file)
-#print a
-#b= cal_2nd_col()
-#print b
-#c=five_min_plot()
-#print c
-#d = fifteen_min_plot()
-#print d
-#e= whole_values_plot()
-#print e
-#f= segment_plot()
-#print f
+a = find_invalid(in_file)
+print a
+b= cal_2nd_col()
+print b
+c=five_min_plot()
+print c
+d = fifteen_min_plot()
+print d
+e= whole_values_plot()
+print e
+f= segment_plot()
+print f
 		
 	
 	
